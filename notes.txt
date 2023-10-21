@@ -1,0 +1,32 @@
+
+
+- Display surface:
+  must be unique
+  is always visible
+- Regular surface:
+  flexible amount
+  only displayed when connected to the display surface
+
+pygame.Surface((100, 200))
+test_surface.fill("Red")
+screen.blit(test_surface, (200, 100)) => 0, 0 => top, left
+
+any kind of graphical import is a new surface
+last surface added is on top
+
+create text => create an image of the text => place it on the display surface
+
+- rectangles
+  precise positioning of surfaces
+  basic collisions
+  draw images on the screen
+
+pygame.Rect(left, top, width, height)
+
+for event in pygame.event.get():
+event.type ==
+pygame.MOUSEMOTION
+pygame.MOUSEBUTTONDOWN
+pygame.MOUSEBUTTONUP
+
+colors: rgb or hex
