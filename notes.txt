@@ -71,3 +71,10 @@ user events:
 if [] => False
 
 animation: place a slightly different looking images in rapid succession
+
+Pygame does not draw sprites automatically
+Create sprite => place sprites in Group or GroupSingle => draw/update all sprites in that group
+
+- Group: a group for multiple sprites (flies and snails)
+- GroupSingle: a group with a single sprite (our player)
+The player and the obstacles need to be in different groups so we can detect collisions between them
