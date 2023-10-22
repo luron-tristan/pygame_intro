@@ -52,3 +52,20 @@ colors: rgb or hex
 
 Why are there 2 methods to get input ?
 classes => want controls inside the class, out of the event loop
+
+user events:
+- triggered by user
+- or by pygame
+
+=> obstacle
+1. create a custom user event
+2. tell pygame to trigger that event continuously
+3. add code in the event loop
+
+=> obstacles
+1. create a list of obstacle rectangles
+2. everything the timer triggers we add a new rectangle to that list
+3. move every rectangle in that list to the left on every frame
+4. delete rectangles too far left
+
+if [] => False
