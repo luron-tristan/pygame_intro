@@ -69,3 +69,5 @@ user events:
 4. delete rectangles too far left
 
 if [] => False
+
+animation: place a slightly different looking images in rapid succession
