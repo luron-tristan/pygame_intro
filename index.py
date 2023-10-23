@@ -15,11 +15,16 @@ class Player(pygame.sprite.Sprite):
     self.image = self.player_walk[self.player_index]
     self.rect = self.image.get_rect(midbottom = (80, GROUND_Y))
     self.gravity = 0
+    self.crouch = False
 
   def player_input(self):
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_SPACE] and self.rect.bottom >= GROUND_Y:
+    if keys[pygame.K_UP] and self.rect.bottom >= GROUND_Y:
       self.gravity = -20
+    if keys[pygame.K_DOWN] and self.rect.bottom >= GROUND_Y:
+      self.crouch = True
+    else:
+      self.crouch = False
 
   def apply_gravity(self):
     self.gravity += 1
@@ -33,7 +38,13 @@ class Player(pygame.sprite.Sprite):
     else:
       self.player_index += 0.1
       if self.player_index >= len(self.player_walk): self.player_index = 0
-      self.image = self.player_walk[int(self.player_index)]
+      image = self.player_walk[int(self.player_index)]
+      if self.crouch:
+        self.image = pygame.transform.rotozoom(image, 0, 0.5)
+      else:
+        self.image = pygame.transform.rotozoom(image, 0, 1)
+      
+      self.rect = self.image.get_rect(midbottom = (80, GROUND_Y))
 
   def update(self):
     self.player_input()
@@ -48,7 +59,7 @@ class Obstacle(pygame.sprite.Sprite):
       fly_1 = pygame.image.load("graphics/fly/fly1.png").convert_alpha()
       fly_2 = pygame.image.load("graphics/fly/fly2.png").convert_alpha()
       self.frames = [fly_1, fly_2]
-      y_pos = 210
+      y_pos = 250
     else:
       snail_1 = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
       snail_2 = pygame.image.load('graphics/snail/snail2.png').convert_alpha()
@@ -275,3 +286,8 @@ while True:
 
   pygame.display.update()
   clock.tick(60)
+
+# TODO:
+# cancel jump on start
+# increase speed as score highens
+# make obstacles speed varying
