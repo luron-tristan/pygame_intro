@@ -17,10 +17,14 @@ class Player(pygame.sprite.Sprite):
     self.gravity = 0
     self.crouch = False
 
+    self.jump_sound = pygame.mixer.Sound("audio/jump.mp3")
+    self.jump_sound.set_volume(0.2)
+
   def player_input(self):
     keys = pygame.key.get_pressed()
     if keys[pygame.K_UP] and self.rect.bottom >= GROUND_Y:
       self.gravity = -20
+      self.jump_sound.play()
     if keys[pygame.K_DOWN] and self.rect.bottom >= GROUND_Y:
       self.crouch = True
     else:
@@ -40,9 +44,9 @@ class Player(pygame.sprite.Sprite):
       if self.player_index >= len(self.player_walk): self.player_index = 0
       image = self.player_walk[int(self.player_index)]
       if self.crouch:
-        self.image = pygame.transform.rotozoom(image, 0, 0.5)
+        self.image = pygame.transform.scale_by(image, (1, 0.5))
       else:
-        self.image = pygame.transform.rotozoom(image, 0, 1)
+        self.image = pygame.transform.scale_by(image, 1)
       
       self.rect = self.image.get_rect(midbottom = (80, GROUND_Y))
 
@@ -141,9 +145,12 @@ pygame.display.set_caption("Runner")
 clock = pygame.time.Clock()
 test_font = pygame.font.Font("font/Pixeltype.ttf", 50)
 
-game_active = True
+game_active = False
 start_time = 0
 score = 0
+bg_music = pygame.mixer.Sound("audio/music.wav")
+bg_music.set_volume(0.4)
+bg_music.play(loops = -1)
 
 # Groups
 player = pygame.sprite.GroupSingle()
@@ -219,7 +226,7 @@ while True:
       #     player_gravity = -20
           
       if event.type == obstacle_timer:
-        obstacle_group.add(Obstacle(choice(['fly', 'snail', 'snail', 'snail'])))
+        obstacle_group.add(Obstacle(choice(['fly', 'snail', 'snail'])))
         # if randint(0, 2):
         #   obstacle_rect_list.append(snail_surf.get_rect(midbottom=(randint(900, 1100), GROUND_Y)))
         # else:
@@ -276,6 +283,7 @@ while True:
     # obstacle_rect_list.clear()
     # player_rect.midbottom = (80, GROUND_Y)
     # player_gravity = 0
+    player.sprite.gravity = 0
 
     score_message = test_font.render(f"Your score: {score}", False, (111, 196, 169))
     score_message_rect = score_message.get_rect(midbottom= (SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50))
@@ -291,3 +299,4 @@ while True:
 # cancel jump on start
 # increase speed as score highens
 # make obstacles speed varying
+# add volume control button (on/off or 0-100)
